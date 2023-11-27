@@ -6,7 +6,7 @@ import IconClose from '@/components/icons/IconClose.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
 import { RouterLink } from 'vue-router';
 
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 type FormChoice = { text: string, correct: boolean };
 const defaultChoices = [{ text: 'From 2 to 4 choices', correct: false }, { text: 'One must be correct', correct: true }];
@@ -15,6 +15,13 @@ const question = ref('');
 const choices = ref<FormChoice[]>(defaultChoices);
 const includeExplanation = ref(false);
 const explanation = ref('');
+
+const isFormValid = computed(() => {
+  let valid = question.value.trim().length > 0;
+  valid &&= choices.value.every(c => c.text.trim().length > 0);
+  if (includeExplanation.value) valid &&= explanation.value.trim().length > 0;
+  return valid;
+});
 
 function markAsCorrect(choice: FormChoice) {
   const prev = choices.value.find(c => c.correct);
@@ -30,6 +37,14 @@ function deleteChoice(index: number) {
   choices.value.splice(index, 1);
 }
 
+function handleSubmit() {
+  console.log({
+    question: question.value,
+    choices: choices.value,
+    explanation: includeExplanation.value ? explanation.value : null
+  });
+}
+
 </script>
 <template>
   <main class="py2">
@@ -42,7 +57,7 @@ function deleteChoice(index: number) {
     </div>
     <h1 class="text-2xl text-main font-semibold text-center font-mono">NEW QUIZ</h1>
     <p class="text-center text-sm">Basic markdown supported</p>
-    <div class="flex flex-col gap-4">
+    <form class="flex flex-col gap-4">
       <div class="form-control">
         <label class="label" for="question_body">
           <span class="label-text">Question:</span>
@@ -53,7 +68,7 @@ function deleteChoice(index: number) {
       <div class="flex flex-col gap-2">
         <p class="label-text">Choices:</p>
         <div v-for="choice, index in choices" class="flex items-center gap-1">
-          <button class="btn btn-square btn-sm" :class="{ 'btn-success text-white': choice.correct }"
+          <button type="button" class="btn btn-square btn-sm" :class="{ 'btn-success text-white': choice.correct }"
             @click="markAsCorrect(choice)">
             <IconCheck />
           </button>
@@ -61,12 +76,12 @@ function deleteChoice(index: number) {
             :class="{ 'textarea-success': choice.correct }"
             class="textarea textarea-sm textarea-bordered font-mono flex-1" rows="1">
           </textarea>
-          <button @click="deleteChoice(index)" :class="{ 'btn-disabled': choices.length <= 2 }"
+          <button type="button" @click="deleteChoice(index)" :disabled="choices.length <= 2"
             class="btn btn-square btn-sm btn-error text-white">
             <IconClose />
           </button>
         </div>
-        <button v-if="choices.length < 4" @click="choices.push({ text: '', correct: false })"
+        <button type="button" v-if="choices.length < 4" @click="choices.push({ text: '', correct: false })"
           class="btn btn-sm btn-neutral btn-ghost">
           <IconPlus />Add choice
         </button>
@@ -84,10 +99,13 @@ function deleteChoice(index: number) {
           </label>
           <textarea v-model="explanation" id="question_explanation"
             class="textarea textarea-bordered textarea-sm font-mono" rows="5">
-        </textarea>
+          </textarea>
         </div>
       </div>
-    </div>
+      <button @click.prevent="handleSubmit" type="submit" class="btn btn-primary" :disabled="!isFormValid">
+        Submit
+      </button>
+    </form>
     <div class="divider"></div>
     <h1 class="text-2xl text-main font-semibold text-center font-mono">PREVIEW</h1>
   </main>
