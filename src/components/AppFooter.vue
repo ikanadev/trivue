@@ -3,12 +3,16 @@ import IconGithub from '@/components/icons/IconGithub.vue';
 </script>
 
 <template>
-  <footer class="border-t border-gray-6 dark:border-gray-3 text-gray-6 dark:text-gray-3 py-2 flex justify-between">
+  <footer>
+    <div class="divider my-1"></div>
+    <div class="pb-2 flex justify-between">
     <div>Made by
-      <a href="#" class="underline">Kevv</a>
+      <a href="#" class="link">Kevv</a>
     </div>
-    <a class="flex items-center underline font-medium" href="#">
-      <IconGithub class="mr-1 text-xl mt-0.5" /> Source
-    </a>
+    <div class="flex items-center">
+      <IconGithub class="mr-1 text-xl mt-0.5 inline-block" />
+      <a href="#" class="link">Source</a>
+    </div>
+    </div>
   </footer>
 </template>
