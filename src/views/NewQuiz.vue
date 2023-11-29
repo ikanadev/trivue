@@ -7,14 +7,22 @@ import IconPlus from '@/components/icons/IconPlus.vue';
 import { RouterLink } from 'vue-router';
 
 import { computed, ref } from 'vue';
+import { parse } from 'marked';
 
 type FormChoice = { text: string, correct: boolean };
 const defaultChoices = [{ text: 'From 2 to 4 choices', correct: false }, { text: 'One must be correct', correct: true }];
 
-const question = ref('');
+const question = ref(`
+What will be the **output** of this?
+\`\`\`
+import ThemeButton from 'vue-router';
+\`\`\`
+`);
 const choices = ref<FormChoice[]>(defaultChoices);
 const includeExplanation = ref(false);
 const explanation = ref('');
+
+const questionHtml = computed(() => parse(question.value));
 
 const isFormValid = computed(() => {
   let valid = question.value.trim().length > 0;
@@ -108,5 +116,26 @@ function handleSubmit() {
     </form>
     <div class="divider"></div>
     <h1 class="text-2xl text-main font-semibold text-center font-mono">PREVIEW</h1>
+    <div class="flex flex-col gap-4 mt-4">
+      <div v-html="questionHtml" class="prose mb-4"></div>
+      <div v-for="choice in choices" class="card card-compact bg-base-300 cursor-pointer shadow">
+        <div class="card-body">
+          <div v-html="parse(choice.text)" class="prose"></div>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
+
+<style>
+#question_card:before {
+  content: '';
+  position: absolute;
+  background: red;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+}
+</style>
