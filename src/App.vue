@@ -4,7 +4,7 @@ import Footer from '@/components/AppFooter.vue';
 import { watch } from 'vue';
 import { RouterView } from 'vue-router'
 import { THEME_KEY } from '@/utils/constants';
-import { useThemeStore } from './stores/appState';
+import { useThemeStore } from '@/stores/theme';
 
 const themeStore = useThemeStore();
 

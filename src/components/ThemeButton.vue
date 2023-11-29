@@ -3,7 +3,7 @@ import IconSun from '@/components/icons/IconSun.vue'
 import IconMoon from '@/components/icons/IconMoon.vue'
 
 import { AppTheme } from '@/utils/app_types';
-import { useThemeStore } from '@/stores/appState';
+import { useThemeStore } from '@/stores/theme';
 
 const themeStore = useThemeStore();
 
