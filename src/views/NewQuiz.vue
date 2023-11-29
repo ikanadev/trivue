@@ -10,6 +10,7 @@ import DOMPurify from 'dompurify';
 import { computed, ref } from 'vue';
 import { parse } from 'marked';
 import { submitQuiz } from '@/api';
+import { useAlertsStore } from '@/stores/alerts';
 
 enum ActiveTab { edit, preview };
 type FormChoice = { text: string, correct: boolean };
@@ -24,6 +25,8 @@ type FormState = {
 const defaultChoices = [{ text: 'From 2 to 4 choices', correct: false }, { text: 'One must be correct', correct: true }];
 
 const router = useRouter();
+const alertsStore = useAlertsStore();
+
 const activeTab = ref(ActiveTab.edit);
 const form = ref<FormState>({
   question: `What will be the **output** of this?
@@ -67,6 +70,9 @@ function handleSubmit() {
   submitQuiz().then(() => {
     form.value.loading = false;
     router.push({ name: 'home' });
+    alertsStore.successAlert('Quiz submitted successfully, thanks for you collaboration!');
+  }).catch(() => {
+    alertsStore.errorAlert('Error submitting quiz, please try again later.');
   });
 }
 
