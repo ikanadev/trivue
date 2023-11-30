@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import ThemeButton from '@/components/ThemeButton.vue';
-import IconChevBack from '@/components/icons/IconChevBack.vue';
-import IconCheck from '@/components/icons/IconCheck.vue';
-import IconClose from '@/components/icons/IconClose.vue';
-import IconPlus from '@/components/icons/IconPlus.vue';
+import { IconChevBack, IconCheck, IconClose, IconPlus, IconMinus } from '@/components/icons';
 import { RouterLink, useRouter } from 'vue-router';
 import DOMPurify from 'dompurify';
 
@@ -20,6 +17,7 @@ type FormState = {
   includeExplanation: boolean,
   explanation: string,
   loading: boolean,
+  duration: number,
 };
 
 const defaultChoices = [{ text: 'From 2 to 4 choices', correct: false }, { text: 'One must be correct', correct: true }];
@@ -37,6 +35,7 @@ import ThemeButton from 'vue-router';
   includeExplanation: false,
   explanation: '',
   loading: false,
+  duration: 15,
 });
 
 const isFormValid = computed(() => {
@@ -94,24 +93,26 @@ function handleSubmit() {
         role="tab">
         Edit
       </button>
-      <button @click="activeTab = ActiveTab.preview" class="tab" :class="{ 'tab-active': activeTab === ActiveTab.preview }"
-        role="tab">
+      <button @click="activeTab = ActiveTab.preview" class="tab"
+        :class="{ 'tab-active': activeTab === ActiveTab.preview }" role="tab">
         Preview
       </button>
     </div>
 
-    <form v-if="activeTab === ActiveTab.edit" class="flex flex-col gap-4">
+    <form v-if="activeTab === ActiveTab.edit" class="flex flex-col gap-5">
       <div class="form-control">
         <label class="label pt-0" for="question_body">
           <span class="label-text">Question:</span>
         </label>
-        <textarea v-model="form.question" id="question_body" class="textarea textarea-bordered textarea-sm font-mono" rows="5">
+        <textarea v-model="form.question" id="question_body" class="textarea textarea-bordered textarea-sm font-mono"
+          rows="5">
         </textarea>
       </div>
+
       <div class="flex flex-col gap-2">
         <p class="label-text">Choices:</p>
         <div v-for="choice, index in form.choices" class="flex items-center gap-1">
-          <button type="button" class="btn btn-square btn-sm" :class="{ 'btn-success text-white': choice.correct }"
+          <button type="button" class="btn btn-square" :class="{ 'btn-success text-white': choice.correct }"
             @click="markAsCorrect(choice)">
             <IconCheck />
           </button>
@@ -120,7 +121,7 @@ function handleSubmit() {
             class="textarea textarea-sm textarea-bordered font-mono flex-1" rows="1">
           </textarea>
           <button type="button" @click="deleteChoice(index)" :disabled="form.choices.length <= 2"
-            class="btn btn-square btn-sm btn-error text-white">
+            class="btn btn-square btn-error text-white">
             <IconClose />
           </button>
         </div>
@@ -129,6 +130,20 @@ function handleSubmit() {
           <IconPlus />Add choice
         </button>
       </div>
+
+      <div>
+        <p class="label-text mb-2">Seconds to answer:</p>
+        <div class="flex justify-around items-center">
+          <button @click="form.duration -= 5;" :disabled="form.duration <= 5" class="btn btn-square" type="button">
+            <IconMinus />
+          </button>
+          <p class="text-2xl font-mono">{{ form.duration }}</p>
+          <button @click="form.duration += 5" :disabled="form.duration >= 60" class="btn btn-square" type="button">
+            <IconPlus />
+          </button>
+        </div>
+      </div>
+
       <div>
         <div class="form-control">
           <label class="label cursor-pointer">
@@ -145,6 +160,7 @@ function handleSubmit() {
           </textarea>
         </div>
       </div>
+
       <button @click.prevent="handleSubmit" type="submit" class="btn btn-primary" :disabled="!isFormValid">
         <span v-if="form.loading" class="loading loading-spinner"></span>
         {{ form.loading ? 'Submitting' : 'Submit' }}

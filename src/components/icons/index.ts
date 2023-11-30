@@ -1,0 +1,14 @@
+export { default as IconAdd } from './IconAdd.vue';
+export { default as IconCheck } from './IconCheck.vue';
+export { default as IconChevBack } from './IconChevBack.vue';
+export { default as IconClose } from './IconClose.vue';
+export { default as IconCommunity } from './IconCommunity.vue';
+export { default as IconDocumentation } from './IconDocumentation.vue';
+export { default as IconEcosystem } from './IconEcosystem.vue';
+export { default as IconGithub } from './IconGithub.vue';
+export { default as IconMinus } from './IconMinus.vue';
+export { default as IconMoon } from './IconMoon.vue';
+export { default as IconPlus } from './IconPlus.vue';
+export { default as IconSun } from './IconSun.vue';
+export { default as IconSupport } from './IconSupport.vue';
+export { default as IconTooling } from './IconTooling.vue';
