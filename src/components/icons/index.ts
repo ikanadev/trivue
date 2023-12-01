@@ -11,4 +11,5 @@ export { default as IconMoon } from './IconMoon.vue';
 export { default as IconPlus } from './IconPlus.vue';
 export { default as IconSun } from './IconSun.vue';
 export { default as IconSupport } from './IconSupport.vue';
+export { default as IconTimer } from './IconTimer.vue';
 export { default as IconTooling } from './IconTooling.vue';

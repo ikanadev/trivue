@@ -2,16 +2,8 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { AlertType, type AppAlert } from '@/utils/app_types';
 
-const dummyAlerts: AppAlert[] = [
-  {type: AlertType.Success, message: 'This is a success message'},
-  {type: AlertType.Error, message: 'This is a error message'},
-  {type: AlertType.Warning, message: 'This is a warning message'},
-  {type: AlertType.Neutral, message: 'This is a message'},
-  {type: AlertType.Info, message: 'This is a info message'},
-];
-
 export const useAlertsStore = defineStore('alerts', () => {
-  const alerts = ref<AppAlert[]>(dummyAlerts);
+  const alerts = ref<AppAlert[]>([]);
 
   function alert(msg: string) {
     alerts.value.push({ type: AlertType.Neutral, message: msg });

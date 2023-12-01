@@ -2,8 +2,37 @@
 import ThemeButton from '@/components/ThemeButton.vue';
 import IconAdd from '@/components/icons/IconAdd.vue';
 import IconCheck from '@/components/icons/IconCheck.vue';
-
 import { RouterLink } from 'vue-router';
+
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { fetchEasyQuestions } from '@/api';
+import { useQuizStore } from '@/stores/quiz';
+
+type LoadingState = {
+  easy: boolean,
+  medium: boolean,
+  hard: boolean,
+};
+
+const router = useRouter();
+const quizStore = useQuizStore();
+const loadingState = ref<LoadingState>({ easy: false, medium: false, hard: false });
+const somethingIsLoading = computed(() => {
+  return loadingState.value.easy || loadingState.value.medium || loadingState.value.hard;
+});
+
+function loadEasyQuestions() {
+  loadingState.value.easy = true;
+  fetchEasyQuestions().then((res) => {
+    quizStore.setEasyQuestions(res);
+    router.push({ name: 'quiz' });
+  }).catch((err) => {
+    console.log(err);
+  }).finally(() => {
+    loadingState.value.easy = false;
+  });
+}
 </script>
 
 <template>
@@ -19,14 +48,25 @@ import { RouterLink } from 'vue-router';
     </p>
     <h2 class="text-xl font-mono font-bold text-main mt-8">START:</h2>
     <div class="flex flex-col gap-4 mt-4">
-      <button class="btn btn-primary btn-lg text-xl">Easy</button>
-      <button class="btn btn-primary btn-lg text-xl">Medium</button>
-      <button class="btn btn-primary btn-lg text-xl">Hard</button>
+      <button @click="loadEasyQuestions" :disabled="somethingIsLoading" class="btn btn-primary btn-lg text-xl">
+        <span v-if="loadingState.easy" class="loading loading-spinner"></span>
+        {{ loadingState.easy ? 'Fetching questions' : 'Easy' }}
+      </button>
+      <button :disabled="somethingIsLoading" class="btn btn-primary btn-lg text-xl">
+        <span v-if="loadingState.medium" class="loading loading-spinner"></span>
+        {{ loadingState.medium ? 'Fetching questions...' : 'Medium' }}
+      </button>
+      <button :disabled="somethingIsLoading" class="btn btn-primary btn-lg text-xl">
+        <span v-if="loadingState.hard" class="loading loading-spinner"></span>
+        {{ loadingState.hard ? 'Fetching questions...' : 'Hard' }}
+      </button>
       <div class="flex justify-around mt-8 md:mt-20">
-        <RouterLink :to="{name: 'new_quiz'}" class="btn btn-neutral btn-sm btn-ghost">
+        <RouterLink :to="{ name: 'new_quiz' }" class="btn btn-neutral btn-sm btn-ghost">
           <IconAdd />Submit
         </RouterLink>
-        <button class="btn btn-neutral btn-sm btn-ghost"><IconCheck />Rate</button>
+        <button class="btn btn-neutral btn-sm btn-ghost">
+          <IconCheck />Rate
+        </button>
       </div>
     </div>
 

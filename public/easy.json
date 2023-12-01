@@ -1,0 +1,242 @@
+[
+  {
+    "id": "1",
+    "text": "The correct way to import `ref` is:",
+    "seconds": 15,
+    "explanation": null,
+    "choices": [
+      {
+        "id": "1",
+        "text": "`import { ref } from 'vue';`",
+        "is_correct": true
+      },
+      {
+        "id": "2",
+        "text": "`import { ref } from 'vue/composition';`",
+        "is_correct": false
+      },
+      {
+        "id": "3",
+        "text": "`import { ref } from 'vue/reactivity';`",
+        "is_correct": false
+      },
+      {
+        "id": "4",
+        "text": "`import ref from 'vue/reactivity';`",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "text": "The shorthand for the `v-on:click` directive in `<button v-on:click=\"someHandler\">Save</button>` is:",
+    "seconds": 15,
+    "explanation": null,
+    "choices": [
+      {
+        "id": "5",
+        "text": "`<button @click=\"someHandler\">Save</button>`",
+        "is_correct": true
+      },
+      {
+        "id": "6",
+        "text": "`<button :click=\"someHandler\">Save</button>`",
+        "is_correct": false
+      },
+      {
+        "id": "7",
+        "text": "`<button onclick=\"someHandler\">Save</button>`",
+        "is_correct": false
+      },
+      {
+        "id": "8",
+        "text": "`<button click=\"someHandler\">Save</button>`",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "text": "In Vue js, there must be only one application instance (`createApp(App).mount('#app')`).",
+    "seconds": 10,
+    "explanation": "We can have as many app instances as we like, each Vue application will have its own scope.",
+    "choices": [
+      {
+        "id": "9",
+        "text": "true",
+        "is_correct": true
+      },
+      {
+        "id": "10",
+        "text": "false",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "text": "The shorthand for the `v-bind:=` directive in `<input v-bind:value=\"someValue\" />` is:",
+    "seconds": 15,
+    "explanation": null,
+    "choices": [
+      {
+        "id": "11",
+        "text": "`<input :value=\"someValue\" />`",
+        "is_correct": true
+      },
+      {
+        "id": "12",
+        "text": "`<input @value=\"someValue\" />`",
+        "is_correct": false
+      },
+      {
+        "id": "13",
+        "text": "`<input ~value=\"someValue\" />`",
+        "is_correct": false
+      },
+      {
+        "id": "14",
+        "text": "`<input value=\"someValue\" />`",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "text": "Which of the following content is not allowed in templates?",
+    "seconds": 10,
+    "explanation": "Vue allows any kind of JavaScript expressions in text interpolations (mustaches) but not other kind of code (like statements).",
+    "choices": [
+      {
+        "id": "15",
+        "text": "<p>{{ newName = \"Hello\" + name; newName }}</p>",
+        "is_correct": true
+      },
+      {
+        "id": "16",
+        "text": "<p>{{ name.split('').reverse().join('') }}</p>",
+        "is_correct": false
+      },
+      {
+        "id": "17",
+        "text": "<p>{{ `Hello I'm ${name}` }}</p>",
+        "is_correct": false
+      },
+      {
+        "id": "19",
+        "text": "<p>{{ ((n) => \"Hello \" + n)(name) }}</p>",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "text": "The directives `v-if` and `v-show` are exactly the same. Vue supports both names.",
+    "seconds": 15,
+    "explanation": "They are not exactly the same, `v-if` removes or adds the HTML node to the DOM and `v-show` just changes the display css attribute to hide it.",
+    "choices": [
+      {
+        "id": "20",
+        "text": "false",
+        "is_correct": true
+      },
+      {
+        "id": "21",
+        "text": "true",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "text": "In Composition API, the recommended way to declare reactive state is using the `reactive()` function.",
+    "seconds": 15,
+    "explanation": "The recommended way to declare reactive state in Composition API is using the `ref()` function.",
+    "choices": [
+      {
+        "id": "22",
+        "text": "false",
+        "is_correct": true
+      },
+      {
+        "id": "23",
+        "text": "true",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "text": "The `:class=\"\"` binded attribute can accept a strings, an array and even a JS object.",
+    "seconds": 15,
+    "explanation": "It accepts JS objects to toggle classes, arrays to add classes it event supports array of objects.",
+    "choices": [
+      {
+        "id": "24",
+        "text": "true",
+        "is_correct": true
+      },
+      {
+        "id": "25",
+        "text": "false",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "text": "We are using `v-for` with an Object, like this: \n ```vue\n<li v-for=\"(a, b, c) in myObject\">\n```\n What represents the `a`, `b` and `c` variables?",
+    "seconds": 10,
+    "explanation": null,
+    "choices": [
+      {
+        "id": "26",
+        "text": "`a`:value, `b`:key and `c`:index",
+        "is_correct": true
+      },
+      {
+        "id": "27",
+        "text": "`a`:key, `b`:value and `c`:index",
+        "is_correct": false
+      },
+      {
+        "id": "28",
+        "text": "`a`:index, `b`:key and `c`:value",
+        "is_correct": false
+      },
+      {
+        "id": "29",
+        "text": "`a`:index, `b`:value and `c`:key",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "text": "Which of the following methods does not belong to the Vue component lifecycle hooks.",
+    "seconds": 10,
+    "explanation": "The lifecycle method fired right after a component update is `onUpdated()`.",
+    "choices": [
+      {
+        "id": "30",
+        "text": "onAfterUpdate()",
+        "is_correct": true
+      },
+      {
+        "id": "31",
+        "text": "onBeforeMount()",
+        "is_correct": false
+      },
+      {
+        "id": "32",
+        "text": "onRenderTracked()",
+        "is_correct": false
+      },
+      {
+        "id": "33",
+        "text": "onBeforeUpdate()",
+        "is_correct": false
+      }
+    ]
+  }
+]
