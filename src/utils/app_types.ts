@@ -11,7 +11,7 @@ export enum AlertType {
   Error = "alert-error",
 };
 
-export enum QuizLevel { Easy, Medium, Hard };
+export enum QuizLevel { Easy = "easy", Medium = "medium", Hard = "hard" };
 
 export type AppAlert = {
   type: AlertType,
@@ -30,5 +30,10 @@ export type Question = {
   seconds: number,
   explanation?: string,
   choices: Choice[],
+};
+
+export type Score = {
+  points: number,
+  seconds: number,
 };
 

@@ -8,6 +8,18 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const quizStore = useQuizStore();
 const questionIndex = ref<number | null>(null);
+const loadingNext = ref(false);
+
+function handleNext() {
+  if (questionIndex.value === null) return;
+  if (questionIndex.value + 1 === quizStore.questions.length) {
+    router.push({ name: 'result' });
+    return;
+  }
+  loadingNext.value = true;
+  questionIndex.value++;
+  setTimeout(() => loadingNext.value = false, 200);
+}
 
 onMounted(() => {
   if (quizStore.questions.length === 0) {
@@ -18,6 +30,6 @@ onMounted(() => {
 });
 </script>
 <template>
-  <QuizQuestion v-if="questionIndex !== null" :question="quizStore.questions[questionIndex]" :index="questionIndex"
-    :total="quizStore.questions.length" />
+  <QuizQuestion v-if="questionIndex !== null && !loadingNext" :question="quizStore.questions[questionIndex]"
+    :index="questionIndex" :total="quizStore.questions.length" @require-next="handleNext" />
 </template>
