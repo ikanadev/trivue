@@ -5,6 +5,7 @@ export const useScoreStore = defineStore('score', () => {
   const correctQuestions = ref(0);
   const totalQuestions = ref(0);
   const seconds = ref(0);
+  const totalSeconds = ref(0);
 
   function addPoint() {
     correctQuestions.value++;
@@ -18,5 +19,18 @@ export const useScoreStore = defineStore('score', () => {
     totalQuestions.value = n;
   }
 
-  return { correctQuestions, seconds, addPoint, addSeconds, setTotalQuestions } as const;
+  function setTotalSeconds(n: number) {
+    totalSeconds.value = n;
+  }
+
+  return {
+    correctQuestions,
+    totalQuestions,
+    seconds,
+    totalSeconds,
+    addPoint,
+    addSeconds,
+    setTotalQuestions,
+    setTotalSeconds,
+  } as const;
 });

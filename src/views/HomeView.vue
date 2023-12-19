@@ -7,7 +7,7 @@ import { RouterLink } from 'vue-router';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { fetchEasyQuestions } from '@/api';
-import { useQuizStore } from '@/stores/quiz';
+import { useQuizStore, useScoreStore } from '@/stores';
 
 type LoadingState = {
   easy: boolean,
@@ -17,6 +17,7 @@ type LoadingState = {
 
 const router = useRouter();
 const quizStore = useQuizStore();
+const scoreStore = useScoreStore();
 const loadingState = ref<LoadingState>({ easy: false, medium: false, hard: false });
 const somethingIsLoading = computed(() => {
   return loadingState.value.easy || loadingState.value.medium || loadingState.value.hard;
@@ -26,6 +27,9 @@ function loadEasyQuestions() {
   loadingState.value.easy = true;
   fetchEasyQuestions().then((res) => {
     quizStore.setEasyQuestions(res);
+    scoreStore.setTotalQuestions(res.length);
+    const totalSeconds = res.reduce((sum, a) => sum + a.seconds, 0);
+    scoreStore.setTotalSeconds(totalSeconds);
     router.push({ name: 'quiz' });
   }).catch((err) => {
     console.log(err);
