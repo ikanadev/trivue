@@ -23,6 +23,13 @@ export const useScoreStore = defineStore('score', () => {
     totalSeconds.value = n;
   }
 
+  function reset() {
+    correctQuestions.value = 0;
+    totalQuestions.value = 0;
+    seconds.value = 0;
+    totalSeconds.value = 0;
+  }
+
   return {
     correctQuestions,
     totalQuestions,
@@ -32,5 +39,6 @@ export const useScoreStore = defineStore('score', () => {
     addSeconds,
     setTotalQuestions,
     setTotalSeconds,
+    reset,
   } as const;
 });

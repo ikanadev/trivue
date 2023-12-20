@@ -21,5 +21,17 @@ export const useQuizStore = defineStore('quiz', () => {
     questions.value = newQuestions;
   }
 
-  return { level, questions, setEasyQuestions, setMediumQuestions, setHardQuestions } as const;
+  function reset() {
+    level.value = QuizLevel.Easy;
+    questions.value = [];
+  }
+
+  return {
+    level,
+    questions,
+    setEasyQuestions,
+    setMediumQuestions,
+    setHardQuestions,
+    reset,
+  } as const;
 });
