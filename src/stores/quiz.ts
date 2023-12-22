@@ -27,6 +27,7 @@ export const useQuizStore = defineStore('quiz', () => {
   async function loadEasyQuestions() {
     const alertsStore = useAlertsStore();
     const scoreStore = useScoreStore();
+    scoreStore.reset();
     level.value = QuizLevel.Easy;
     loading.value = true;
     try {

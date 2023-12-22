@@ -2,11 +2,12 @@
 import { RouterLink } from 'vue-router';
 import { IconHome } from '@/components/icons';
 
-import { useScoreStore } from '@/stores';
+import { useQuizStore, useScoreStore } from '@/stores';
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const scoreStore = useScoreStore();
+const quizStore = useQuizStore();
 const router = useRouter();
 
 const score = computed(() => {
@@ -14,6 +15,7 @@ const score = computed(() => {
 });
 
 onMounted(() => {
+  quizStore.reset();
   if (scoreStore.totalSeconds === 0) {
     router.push({ name: 'home' });
   }

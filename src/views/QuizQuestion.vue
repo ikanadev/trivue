@@ -22,6 +22,7 @@ const interval = setInterval(() => {
 }, 1000);
 
 function setUserChoice(c: Choice) {
+  if (finished.value) return;
   userChoice.value = c;
   finish();
 }
@@ -30,7 +31,7 @@ function finish() {
   clearInterval(interval);
   finished.value = true;
   let usedSeconds = props.question.seconds - countdown.value + 1;
-  if (usedSeconds === props.question.seconds + 1) usedSeconds--;
+  if (usedSeconds > props.question.seconds) usedSeconds = props.question.seconds;
   scoreStore.addSeconds(usedSeconds);
   if (userChoice.value === props.question.choices.find(c => c.is_correct)) {
     scoreStore.addPoint();
