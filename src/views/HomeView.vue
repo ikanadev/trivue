@@ -3,40 +3,19 @@ import ThemeButton from '@/components/ThemeButton.vue';
 import IconAdd from '@/components/icons/IconAdd.vue';
 import IconCheck from '@/components/icons/IconCheck.vue';
 import { RouterLink } from 'vue-router';
+import { QuizLevel } from '@/utils/app_types';
 
-import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { fetchEasyQuestions } from '@/api';
-import { useQuizStore, useScoreStore } from '@/stores';
-
-type LoadingState = {
-  easy: boolean,
-  medium: boolean,
-  hard: boolean,
-};
+import { useQuizStore } from '@/stores';
 
 const router = useRouter();
 const quizStore = useQuizStore();
-const scoreStore = useScoreStore();
-const loadingState = ref<LoadingState>({ easy: false, medium: false, hard: false });
-const somethingIsLoading = computed(() => {
-  return loadingState.value.easy || loadingState.value.medium || loadingState.value.hard;
-});
 
-function loadEasyQuestions() {
-  loadingState.value.easy = true;
-  fetchEasyQuestions().then((res) => {
-    quizStore.setEasyQuestions(res);
-    scoreStore.setTotalQuestions(res.length);
-    const totalSeconds = res.reduce((sum, a) => sum + a.seconds, 0);
-    scoreStore.setTotalSeconds(totalSeconds);
+quizStore.$subscribe((_, state) => {
+  if (state.questions.length > 0) {
     router.push({ name: 'quiz' });
-  }).catch((err) => {
-    console.log(err);
-  }).finally(() => {
-    loadingState.value.easy = false;
-  });
-}
+  }
+});
 </script>
 
 <template>
@@ -52,17 +31,17 @@ function loadEasyQuestions() {
     </p>
     <h2 class="text-xl font-mono font-bold text-main mt-8">START:</h2>
     <div class="flex flex-col gap-4 mt-4">
-      <button @click="loadEasyQuestions" :disabled="somethingIsLoading" class="btn btn-primary btn-lg text-xl">
-        <span v-if="loadingState.easy" class="loading loading-spinner"></span>
-        {{ loadingState.easy ? 'Fetching questions' : 'Easy' }}
+      <button @click="quizStore.loadEasyQuestions" :disabled="quizStore.loading" class="btn btn-primary btn-lg text-xl">
+        <span v-if="quizStore.loading && quizStore.level === QuizLevel.Easy" class="loading loading-spinner"></span>
+        Easy
       </button>
-      <button :disabled="somethingIsLoading" class="btn btn-primary btn-lg text-xl">
-        <span v-if="loadingState.medium" class="loading loading-spinner"></span>
-        {{ loadingState.medium ? 'Fetching questions...' : 'Medium' }}
+      <button :disabled="quizStore.loading" class="btn btn-primary btn-lg text-xl">
+        <span v-if="quizStore.loading && quizStore.level === QuizLevel.Medium" class="loading loading-spinner"></span>
+        Medium
       </button>
-      <button :disabled="somethingIsLoading" class="btn btn-primary btn-lg text-xl">
-        <span v-if="loadingState.hard" class="loading loading-spinner"></span>
-        {{ loadingState.hard ? 'Fetching questions...' : 'Hard' }}
+      <button :disabled="quizStore.loading" class="btn btn-primary btn-lg text-xl">
+        <span v-if="quizStore.loading && quizStore.level === QuizLevel.Hard" class="loading loading-spinner"></span>
+        Hard
       </button>
       <div class="flex justify-around mt-8 md:mt-20">
         <RouterLink :to="{ name: 'new_quiz' }" class="btn btn-neutral btn-sm btn-ghost">

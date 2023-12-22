@@ -11,10 +11,10 @@ export async function fetchEasyQuestions(): Promise<Question[]> {
     const resp = await fetch('/easy.json');
     const data = await resp.json();
     if (!resp.ok) {
-      throw Error('Response was not okay');
+      throw Error(data.message);
     }
     return data;
   } catch (e) {
-    throw Error(`Error fetching questions: ${e}`);
+    throw Error((e as Error).toString());
   }
 }
