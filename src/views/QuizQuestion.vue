@@ -57,7 +57,7 @@ onUnmounted(() => clearInterval(interval));
       <ThemeButton />
     </div>
     <p class="font-mono text-center">QUESTION {{ props.index + 1 }}/{{ props.total }}</p>
-    <div class="prose" v-html="DOMPurify.sanitize(parse(props.question.text))"></div>
+    <div class="prose" v-html="DOMPurify.sanitize(parse(props.question.text) as string)"></div>
     <div class="flex flex-col mt-8 gap-3">
       <div v-for="choice in props.question.choices" :key="choice.id" @click="setUserChoice(choice)"
         class="card card-compact cursor-pointer shadow" :class="{
@@ -66,13 +66,13 @@ onUnmounted(() => clearInterval(interval));
           'bg-red-300 dark:bg-red-800': finished && !choice.is_correct && choice === userChoice,
         }">
         <div class="card-body">
-          <div class="prose" v-html="DOMPurify.sanitize(parse(choice.text))"></div>
+          <div class="prose" v-html="DOMPurify.sanitize(parse(choice.text) as string)"></div>
         </div>
       </div>
     </div>
     <div class="" v-if="finished && props.question.explanation">
       <p>Explanation:</p>
-      <div class="prose" v-html="DOMPurify.sanitize(parse(props.question.explanation))"></div>
+      <div class="prose" v-html="DOMPurify.sanitize(parse(props.question.explanation) as string)"></div>
     </div>
     <button v-if="finished" @click="$emit('requireNext')" class="btn btn-primary">
       {{ props.index + 1 === props.total ? 'Finish' : 'Next' }}

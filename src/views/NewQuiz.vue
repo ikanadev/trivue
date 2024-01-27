@@ -167,10 +167,10 @@ function handleSubmit() {
       </button>
     </form>
     <div v-if="activeTab === ActiveTab.preview" class="flex flex-col gap-4">
-      <div v-html="DOMPurify.sanitize(parse(form.question))" class="prose mb-8"></div>
+      <div v-html="DOMPurify.sanitize(parse(form.question) as string)" class="prose mb-8"></div>
       <div v-for="choice in form.choices" class="card card-compact bg-base-300 cursor-pointer shadow">
         <div class="card-body">
-          <div v-html="DOMPurify.sanitize(parse(choice.text))" class="prose"></div>
+          <div v-html="DOMPurify.sanitize(parse(choice.text) as string)" class="prose"></div>
         </div>
       </div>
     </div>

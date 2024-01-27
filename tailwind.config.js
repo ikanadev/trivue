@@ -8,8 +8,7 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      sans: ['PT Sans', 'sans-serif'],
-      mono: ['Ubuntu Mono', 'monospace'],
+      mono: ['Monaspace', 'monospace'],
     },
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
