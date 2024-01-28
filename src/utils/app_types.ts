@@ -12,9 +12,9 @@ export enum AlertType {
 }
 
 export enum QuizLevel {
-	Easy = "easy",
+	Easy = "basic",
 	Medium = "medium",
-	Hard = "hard",
+	Hard = "expert",
 }
 
 export type AppAlert = {

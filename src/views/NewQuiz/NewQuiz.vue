@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ThemeButton from '@/components/ThemeButton.vue';
-import type { Author } from "@/utils";
+import { QuizLevel, type Author } from "@/utils";
 import { IconChevBack, IconCheck, IconClose, IconPlus, IconMinus } from '@/components/icons';
 import { RouterLink, useRouter } from 'vue-router';
 import Preview from "./Preview.vue";
@@ -18,6 +18,7 @@ type FormState = {
 	loading: boolean,
 	duration: number,
 	author: null | Author;
+	level: QuizLevel;
 };
 
 const defaultChoices = [
@@ -39,6 +40,7 @@ console.log('Hello world');
 	loading: false,
 	duration: 15,
 	author: null,
+	level: QuizLevel.Easy,
 });
 
 const isFormValid = computed(() => {
@@ -72,6 +74,7 @@ function handleSubmit() {
 		choices: form.value.choices,
 		explanation: form.value.explanation,
 		authos: form.value.author,
+		level: form.value.level,
 	});
 	/*
 	form.value.loading = true;
@@ -98,7 +101,7 @@ function handleSubmit() {
 		<h1 class="text-3xl text-main font-semibold text-center">NEW QUIZ</h1>
 		<p class="text-center">Basic markdown supported</p>
 
-		<div class="tabs tabs-boxed mt-6 mb-6" role="tablist">
+		<div class="tabs tabs-boxed mt-6 mb-8" role="tablist">
 			<button @click="activeTab = ActiveTab.edit" class="tab" :class="{ 'tab-active': activeTab === ActiveTab.edit }"
 				role="tab">
 				<span class="text-base font-semibold">Edit</span>
@@ -109,7 +112,16 @@ function handleSubmit() {
 			</button>
 		</div>
 
-		<form v-if="activeTab === ActiveTab.edit" class="flex flex-col gap-6">
+		<form v-if="activeTab === ActiveTab.edit" class="flex flex-col gap-4">
+			<div class="flex">
+				<label class="label py-0 flex-1" for="question_level">
+					<span class="label-text text-base">Level:</span>
+				</label>
+				<select id="question_level" class="select select-sm select-bordered text-base" v-model="form.level">
+					<option v-for="level in QuizLevel" :value="level">{{ level }}</option>
+				</select>
+			</div>
+
 			<div class="form-control">
 				<label class="label pt-0" for="question_body">
 					<span class="label-text text-base">Question:</span>
@@ -126,8 +138,8 @@ function handleSubmit() {
 						@click="markAsCorrect(choice)">
 						<IconCheck />
 					</button>
-					<textarea :value="choice.text" @input="choice.text = ($event.target as HTMLInputElement).value"
-						:class="{ 'textarea-success': choice.correct }" class="textarea textarea-bordered font-mono flex-1" rows="1">
+					<textarea v-model="choice.text" :class="{ 'textarea-success': choice.correct }"
+						class="textarea textarea-bordered font-mono flex-1" rows="1">
           </textarea>
 					<button type="button" @click="deleteChoice(index)" :disabled="form.choices.length <= 2"
 						class="btn btn-square btn-error text-white">
@@ -178,18 +190,12 @@ function handleSubmit() {
 				</div>
 				<div class="flex flex-col gap-2" v-if="form.author">
 					<div class="flex">
-						<label class="label cursor-pointer w-16" for="author_name">
-							Name:
-						</label>
-						<input id="author_name" type="text" :value="form.author.name" class="input input-bordered flex-1"
-							@input="form.author.name = ($event.target as HTMLInputElement).value" />
+						<label class="label cursor-pointer w-16" for="author_name">Name:</label>
+						<input id="author_name" type="text" v-model="form.author.name" class="input input-bordered flex-1" />
 					</div>
 					<div class="flex">
-						<label class="label cursor-pointer w-16" for="author_url">
-							URL:
-						</label>
-						<input id="author_url" type="text" :value="form.author.url" class="input input-bordered flex-1"
-							@input="form.author.url = ($event.target as HTMLInputElement).value" />
+						<label class="label cursor-pointer w-16" for="author_url">URL:</label>
+						<input id="author_url" type="text" v-model="form.author.url" class="input input-bordered flex-1" />
 					</div>
 				</div>
 			</div>
