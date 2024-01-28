@@ -23,9 +23,6 @@ module.exports = {
         },
         dark: {
           ...require("daisyui/src/theming/themes").dark,
-          primary: "#4f7997",
-          secondary: "#257a83",
-          accent: "#3bac98",
         },
       },
     ],
