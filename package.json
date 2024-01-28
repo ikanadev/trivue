@@ -13,6 +13,7 @@
   "dependencies": {
     "dompurify": "^3.0.8",
     "highlight.js": "^11.9.0",
+    "ky": "^1.2.0",
     "marked": "^11.2.0",
     "marked-highlight": "^2.1.0",
     "pinia": "^2.1.7",
