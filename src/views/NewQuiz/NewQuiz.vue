@@ -6,11 +6,11 @@ import { RouterLink, useRouter } from 'vue-router';
 import Preview from "./Preview.vue";
 
 import { computed, ref } from 'vue';
-import { submitQuiz } from '@/api';
+import * as api from '@/api';
 import { useAlertsStore } from '@/stores/alerts';
 
 enum ActiveTab { edit, preview };
-type FormChoice = { text: string, correct: boolean };
+type FormChoice = { text: string, isCorrect: boolean };
 type FormState = {
 	question: string,
 	choices: FormChoice[],
@@ -22,8 +22,8 @@ type FormState = {
 };
 
 const defaultChoices = [
-	{ text: 'From 2 to 4 choices', correct: false },
-	{ text: 'One must be correct', correct: true },
+	{ text: 'From 2 to 4 choices', isCorrect: false },
+	{ text: 'One must be correct', isCorrect: true },
 ];
 
 const router = useRouter();
@@ -55,37 +55,36 @@ const isFormValid = computed(() => {
 });
 
 function markAsCorrect(choice: FormChoice) {
-	const prev = form.value.choices.find(c => c.correct);
-	if (prev) prev.correct = false;
-	choice.correct = true;
+	const prev = form.value.choices.find(c => c.isCorrect);
+	if (prev) prev.isCorrect = false;
+	choice.isCorrect = true;
 }
 
 function deleteChoice(index: number) {
 	const choice = form.value.choices[index];
-	if (choice.correct) {
-		form.value.choices[(index + 1) % form.value.choices.length].correct = true;
+	if (choice.isCorrect) {
+		form.value.choices[(index + 1) % form.value.choices.length].isCorrect = true;
 	}
 	form.value.choices.splice(index, 1);
 }
 
 function handleSubmit() {
-	console.log({
-		question: form.value.question,
-		choices: form.value.choices,
-		explanation: form.value.explanation,
-		authos: form.value.author,
-		level: form.value.level,
-	});
-	/*
 	form.value.loading = true;
-	submitQuiz().then(() => {
-		form.value.loading = false;
+	api.saveQuestion({
+		seconds: form.value.duration,
+		text: form.value.question,
+		level: form.value.level,
+		explanation: form.value.explanation,
+		author: form.value.author,
+		choices: form.value.choices,
+	}).then((res) => {
 		router.push({ name: 'home' });
-		alertsStore.successAlert('Quiz submitted successfully, thanks for you collaboration!');
+		alertsStore.successAlert(res.message);
 	}).catch(() => {
 		alertsStore.errorAlert('Error submitting quiz, please try again later.');
+	}).finally(() => {
+		form.value.loading = false;
 	});
-	*/
 }
 
 </script>
@@ -134,11 +133,11 @@ function handleSubmit() {
 			<div class="flex flex-col gap-2">
 				<p class="label-text text-base">Choices:</p>
 				<div v-for="choice, index in form.choices" class="flex items-center gap-1">
-					<button type="button" class="btn btn-square" :class="{ 'btn-success text-white': choice.correct }"
+					<button type="button" class="btn btn-square" :class="{ 'btn-success text-white': choice.isCorrect }"
 						@click="markAsCorrect(choice)">
 						<IconCheck />
 					</button>
-					<textarea v-model="choice.text" :class="{ 'textarea-success': choice.correct }"
+					<textarea v-model="choice.text" :class="{ 'textarea-success': choice.isCorrect }"
 						class="textarea textarea-bordered font-mono flex-1" rows="1">
           </textarea>
 					<button type="button" @click="deleteChoice(index)" :disabled="form.choices.length <= 2"
@@ -146,7 +145,7 @@ function handleSubmit() {
 						<IconClose />
 					</button>
 				</div>
-				<button type="button" v-if="form.choices.length < 4" @click="form.choices.push({ text: '', correct: false })"
+				<button type="button" v-if="form.choices.length < 4" @click="form.choices.push({ text: '', isCorrect: false })"
 					class="btn btn-sm btn-neutral btn-ghost">
 					<IconPlus />Add choice
 				</button>

@@ -1,10 +1,5 @@
 import type { Question } from "@/utils/app_types";
-
-export function submitQuiz() {
-  return new Promise(resolve => {
-    setTimeout(resolve, 500);
-  })
-}
+export * from "./api";
 
 export async function fetchEasyQuestions(): Promise<Question[]> {
   try {
