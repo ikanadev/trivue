@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ThemeButton from '@/components/ThemeButton.vue';
+import type { Author } from "@/utils";
 import { IconChevBack, IconCheck, IconClose, IconPlus, IconMinus } from '@/components/icons';
 import { RouterLink, useRouter } from 'vue-router';
 import Preview from "./Preview.vue";
@@ -10,14 +11,13 @@ import { useAlertsStore } from '@/stores/alerts';
 
 enum ActiveTab { edit, preview };
 type FormChoice = { text: string, correct: boolean };
-type AuthorInfo = { name: string, url: string };
 type FormState = {
 	question: string,
 	choices: FormChoice[],
 	explanation: null | string,
 	loading: boolean,
 	duration: number,
-	author: null | AuthorInfo;
+	author: null | Author;
 };
 
 const defaultChoices = [
@@ -162,8 +162,8 @@ function handleSubmit() {
 					</label>
 				</div>
 				<div v-if="form.explanation !== null" class="form-control">
-					<textarea v-model="form.explanation" id="question_explanation"
-						class="textarea textarea-bordered font-mono" rows="5" placeholder="Please add an explanation">
+					<textarea v-model="form.explanation" id="question_explanation" class="textarea textarea-bordered font-mono"
+						rows="5" placeholder="Please add an explanation">
           </textarea>
 				</div>
 			</div>
@@ -200,14 +200,7 @@ function handleSubmit() {
 			</button>
 		</form>
 		<div v-if="activeTab === ActiveTab.preview" class="flex flex-col gap-4">
-			<Preview :question="form.question" :choices="form.choices" :explanation="form.explanation || ''"
-				:includeExplanation="form.explanation !== null" />
+			<Preview :question="form.question" :choices="form.choices" :explanation="form.explanation" :author="form.author" />
 		</div>
 	</main>
 </template>
-
-<style>
-.prose pre {
-	background: #131313;
-}
-</style>
