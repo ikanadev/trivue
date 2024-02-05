@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
   },
   "dependencies": {
+    "@tanstack/vue-query": "^5.18.1",
     "dompurify": "^3.0.8",
     "highlight.js": "^11.9.0",
     "ky": "^1.2.0",
