@@ -1,25 +1,6 @@
-import { QuizLevel, type Author } from "@/utils";
+import { QuizLevel, QuizOrder, QuizSort, type Author } from "@/utils";
 import { ky } from "./ky";
-/*{
-	"seconds": 10,
-	"text": "Life is hard?",
-	"level": "expert",
-	"explanation": "you know it, I know it",
-	"author": {
-		"url": "https://mio.co",
-		"name": "Mio"
-	},
-	"choices": [
-		{
-			"text": "yes",
-			"isCorrect": true
-		},
-		{
-			"text": "no",
-			"isCorrect": false
-		}
-	]
-}*/
+
 export type ApiMessage = {
 	message: string;
 };
@@ -34,4 +15,16 @@ export type NewQuestionReq = {
 };
 export async function saveQuestion(data: NewQuestionReq) {
 	return await ky.post("trivue/questions", { json: data }).json() as ApiMessage;
+}
+
+export async function getQuestions(
+	page: number,
+	sort: QuizSort,
+	order: QuizOrder,
+	level: QuizLevel,
+) {
+	return await ky.get(
+		"trivue/questions",
+		{ searchParams: { size: 15, page, sort, order, level, } },
+	);
 }

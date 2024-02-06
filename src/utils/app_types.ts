@@ -17,6 +17,16 @@ export enum QuizLevel {
 	Hard = "expert",
 }
 
+export enum QuizSort {
+	Date = "date",
+	Votes = "votes",
+	Duration = "duration",
+}
+export enum QuizOrder {
+	Asc = "asc",
+	Desc = "desc",
+}
+
 export type AppAlert = {
 	type: AlertType;
 	message: string;
