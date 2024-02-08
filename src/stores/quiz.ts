@@ -2,25 +2,25 @@ import { fetchEasyQuestions } from '@/api';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useAlertsStore, useScoreStore } from '.';
-import { QuizLevel, type Question } from '@/utils/app_types';
+import { QuestionLevel, type Question } from '@/utils/app_types';
 
 export const useQuizStore = defineStore('quiz', () => {
-  const level = ref(QuizLevel.Easy);
+  const level = ref(QuestionLevel.Easy);
   const questions = ref<Question[]>([]);
   const loading = ref(false);
 
   function setEasyQuestions(newQuestions: Question[]) {
-    level.value = QuizLevel.Easy;
+    level.value = QuestionLevel.Easy;
     questions.value = newQuestions;
   }
 
   function setMediumQuestions(newQuestions: Question[]) {
-    level.value = QuizLevel.Medium;
+    level.value = QuestionLevel.Medium;
     questions.value = newQuestions;
   }
 
   function setHardQuestions(newQuestions: Question[]) {
-    level.value = QuizLevel.Hard;
+    level.value = QuestionLevel.Hard;
     questions.value = newQuestions;
   }
 
@@ -28,7 +28,7 @@ export const useQuizStore = defineStore('quiz', () => {
     const alertsStore = useAlertsStore();
     const scoreStore = useScoreStore();
     scoreStore.reset();
-    level.value = QuizLevel.Easy;
+    level.value = QuestionLevel.Easy;
     loading.value = true;
     try {
       await new Promise(res => setTimeout(res, 1000));
@@ -45,7 +45,7 @@ export const useQuizStore = defineStore('quiz', () => {
   }
 
   function reset() {
-    level.value = QuizLevel.Easy;
+    level.value = QuestionLevel.Easy;
     questions.value = [];
   }
 

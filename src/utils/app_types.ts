@@ -11,11 +11,12 @@ export enum AlertType {
 	Error = "alert-error",
 }
 
-export enum QuizLevel {
+export enum QuestionLevel {
 	Easy = "basic",
 	Medium = "medium",
 	Hard = "expert",
 }
+export const ALL_LEVELS = "all";
 
 export enum QuizSort {
 	Date = "date",
@@ -26,6 +27,19 @@ export enum QuizOrder {
 	Asc = "asc",
 	Desc = "desc",
 }
+
+export type QuestionItem = {
+	id: string;
+	text: string;
+	level: QuestionLevel;
+	createdAt: string;
+	votes: Votes;
+};
+
+export type Votes = {
+	positive: number;
+	negative: number;
+};
 
 export type AppAlert = {
 	type: AlertType;

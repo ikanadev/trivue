@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ThemeButton from '@/components/ThemeButton.vue';
-import { QuizLevel, type Author } from "@/utils";
+import { QuestionLevel, type Author } from "@/utils";
 import { IconChevBack, IconCheck, IconClose, IconPlus, IconMinus } from '@/components/icons';
 import { RouterLink, useRouter } from 'vue-router';
 import Preview from "./Preview.vue";
@@ -18,7 +18,7 @@ type FormState = {
 	loading: boolean,
 	duration: number,
 	author: null | Author;
-	level: QuizLevel;
+	level: QuestionLevel;
 };
 
 const defaultChoices = [
@@ -40,7 +40,7 @@ console.log('Hello world');
 	loading: false,
 	duration: 15,
 	author: null,
-	level: QuizLevel.Easy,
+	level: QuestionLevel.Easy,
 });
 
 const isFormValid = computed(() => {
@@ -117,7 +117,7 @@ function handleSubmit() {
 					<span class="label-text text-base">Level:</span>
 				</label>
 				<select id="question_level" class="select select-sm select-bordered text-base" v-model="form.level">
-					<option v-for="level in QuizLevel" :value="level">{{ level }}</option>
+					<option v-for="level in QuestionLevel" :value="level">{{ level }}</option>
 				</select>
 			</div>
 
