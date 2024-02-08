@@ -41,8 +41,6 @@ const pages = computed(() => {
 </script>
 
 <template>
-	<div>Current page: {{ currentPage }}</div>
-	<div>Is first: {{ isFirst }}</div>
 	<div class="flex justify-center gap-4">
 		<div class="join">
 			<button class="join-item btn btn-sm text-lg" @click="setPage(1)" :disabled="isFirst">
