@@ -21,3 +21,6 @@ export { default as IconChevronLeft } from './IconChevronLeft.vue';
 export { default as IconChevronRight } from './IconChevronRight.vue';
 export { default as IconChevronDoubleRight } from './IconChevronDoubleRight.vue';
 export { default as IconChevronDoubleLeft } from './IconChevronDoubleLeft.vue';
+export { default as IconStar } from './IconStar.vue';
+export { default as IconHeart } from './IconHeart.vue';
+export { default as IconHeartBroken } from './IconHeartBroken.vue';
