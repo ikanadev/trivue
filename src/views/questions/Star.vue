@@ -44,4 +44,5 @@ onMounted(() => {
 		<circle cx="0" cy="0" r="100" fill="none" stroke="#ffffff44" stroke-width="1" />
 		<path ref="pathRef" d="" fill="currentColor" stroke-linejoin="round" />
 	</svg>
+
 </template>

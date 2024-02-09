@@ -2,7 +2,6 @@
 import ThemeButton from '@/components/ThemeButton.vue';
 import IconAdd from '@/components/icons/IconAdd.vue';
 import IconCheck from '@/components/icons/IconCheck.vue';
-import { RouterLink } from 'vue-router';
 import { QuestionLevel } from '@/utils/app_types';
 
 import { useRouter } from 'vue-router';

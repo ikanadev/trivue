@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import ThemeButton from "@/components/ThemeButton.vue";
 import { QuizSort, QuizOrder, QuestionLevel, ALL_LEVELS, marked } from "@/utils";
-import { IconSortAscending, IconSortDescending } from "@/components/icons";
+import { IconSortAscending, IconSortDescending, IconHeart, IconHeartBroken, IconChevBack } from "@/components/icons";
 import Pagination from "./Pagination.vue";
-import Star from "./Star.vue";
 
 import DOMPurify from "dompurify";
 import { getQuestions } from "@/api";
 import { ref } from "vue";
 import { useQuery } from "@tanstack/vue-query";
+
+import 'highlight.js/styles/atom-one-dark.min.css';
 
 const page = ref(1);
 const quizLevel = ref<QuestionLevel | typeof ALL_LEVELS>(ALL_LEVELS);
@@ -44,7 +45,18 @@ function setPage(n: number) {
 
 <template>
 	<main class="py-2">
-		<div class="flex items-end gap-2">
+		<div class="flex justify-between items-center">
+			<RouterLink :to="{ name: 'home' }" class="link flex items-center">
+				<IconChevBack class="me-1" />
+				<span>Back</span>
+			</RouterLink>
+			<ThemeButton />
+		</div>
+
+		<h1 class="text-3xl text-main font-semibold text-center">RATE</h1>
+		<p class="text-center">Questions with at least 10 points will appear in the trivia.</p>
+
+		<div class="flex items-end justify-end gap-2 mt-4">
 			<label class="form-control">
 				<div class="label pb-0">
 					<span class="label-text">Level</span>
@@ -77,9 +89,6 @@ function setPage(n: number) {
 					<IconSortDescending class="text-lg" />
 				</div>
 			</label>
-			<div class="flex-1"></div>
-
-			<ThemeButton />
 		</div>
 		<div>
 			<div v-if="isLoading" class="flex justify-center h-36">
@@ -99,7 +108,9 @@ function setPage(n: number) {
 							<div class="card-actions justify-between items-center mt-3">
 								<div class="text-sm italic">{{ new Date(question.createdAt).toLocaleString() }}</div>
 								<div class="flex items-center gap-1">
-									<Star width="24" height="24" :points="question.votes.positive - question.votes.negative" />
+									<IconHeart v-if="question.votes.positive - question.votes.negative > 0" class="text-2xl text-red-500" />
+									<IconHeart v-else-if="question.votes.positive - question.votes.negative === 0" class="text-2xl text-gray-500" />
+									<IconHeartBroken v-else class="text-2xl text-gray-500" />
 									<p class="text-lg">{{ question.votes.positive - question.votes.negative }}</p>
 								</div>
 							</div>

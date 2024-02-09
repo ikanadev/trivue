@@ -2,7 +2,7 @@
 import ThemeButton from '@/components/ThemeButton.vue';
 import { QuestionLevel, type Author } from "@/utils";
 import { IconChevBack, IconCheck, IconClose, IconPlus, IconMinus } from '@/components/icons';
-import { RouterLink, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import Preview from "./Preview.vue";
 
 import { computed, ref } from 'vue';
