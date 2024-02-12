@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ThemeButton from "@/components/ThemeButton.vue";
-import { QuizSort, QuizOrder, QuestionLevel, ALL_LEVELS, marked } from "@/utils";
+import { QuizSort, QuizOrder, QuestionLevel, ALL_LEVELS, STALE_TIME, marked } from "@/utils";
 import { IconSortAscending, IconSortDescending, IconHeart, IconHeartBroken, IconChevBack } from "@/components/icons";
 import Pagination from "./Pagination.vue";
 
@@ -27,7 +27,7 @@ const { isLoading, isError, data } = useQuery({
 			sortOrder: sortOrder,
 		},
 	],
-	staleTime: 5 * 60 * 1000,
+	staleTime: STALE_TIME,
 	queryFn: async function () {
 		return await getQuestions({
 			page: page.value,
