@@ -33,7 +33,7 @@ function finish() {
   let usedSeconds = props.question.seconds - countdown.value + 1;
   if (usedSeconds > props.question.seconds) usedSeconds = props.question.seconds;
   scoreStore.addSeconds(usedSeconds);
-  if (userChoice.value === props.question.choices.find(c => c.is_correct)) {
+  if (userChoice.value === props.question.choices.find(c => c.isCorrect)) {
     scoreStore.addPoint();
   }
 }
@@ -61,9 +61,9 @@ onUnmounted(() => clearInterval(interval));
     <div class="flex flex-col mt-8 gap-3">
       <div v-for="choice in props.question.choices" :key="choice.id" @click="setUserChoice(choice)"
         class="card card-compact cursor-pointer shadow" :class="{
-          'bg-base-300': !finished || choice !== userChoice || !choice.is_correct,
-          'bg-green-300 dark:bg-green-800': finished && choice.is_correct,
-          'bg-red-300 dark:bg-red-800': finished && !choice.is_correct && choice === userChoice,
+          'bg-base-300': !finished || choice !== userChoice || !choice.isCorrect,
+          'bg-green-300 dark:bg-green-800': finished && choice.isCorrect,
+          'bg-red-300 dark:bg-red-800': finished && !choice.isCorrect && choice === userChoice,
         }">
         <div class="card-body">
           <div class="prose" v-html="DOMPurify.sanitize(parse(choice.text) as string)"></div>
