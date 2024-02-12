@@ -1,5 +1,5 @@
 import { QuestionLevel, QuizOrder, QuizSort, ALL_LEVELS, ITEMS_PER_PAGE } from "@/utils";
-import type { Author, QuestionItem } from "@/utils";
+import type { Author, QuestionItem, Question } from "@/utils";
 import { ky } from "./ky";
 
 export type ApiMessage = {
@@ -35,5 +35,5 @@ export async function getQuestions(params: GetQuestionsParams) {
 
 export async function getQuestion(id: string) {
 	await new Promise((resolve) => setTimeout(resolve, 1500));
-	return await ky.get(`trivue/questions/${id}`).json();
+	return await ky.get(`trivue/questions/${id}`).json() as Question;
 }
