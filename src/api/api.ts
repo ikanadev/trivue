@@ -32,3 +32,8 @@ export async function getQuestions(params: GetQuestionsParams) {
 		{ searchParams: { size: ITEMS_PER_PAGE, ...params } },
 	).json() as { total: number, questions: Array<QuestionItem> };
 }
+
+export async function getQuestion(id: string) {
+	await new Promise((resolve) => setTimeout(resolve, 1500));
+	return await ky.get(`trivue/questions/${id}`).json();
+}

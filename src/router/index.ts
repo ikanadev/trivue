@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import HomeView from '@/views/HomeView.vue';
 import Quiz from '@/views/Quiz.vue';
 import Result from '@/views/Result.vue';
 
@@ -29,7 +29,12 @@ const router = createRouter({
     {
       path: '/questions',
       name: 'questions',
-      component: () => import('../views/questions/Questions.vue'),
+      component: () => import('../views/Questions/Questions.vue'),
+    },
+    {
+      path: '/questions/:id',
+      name: 'question',
+      component: () => import('../views/Question/Question.vue'),
     },
   ]
 })
