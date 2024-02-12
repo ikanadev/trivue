@@ -28,6 +28,11 @@ export enum QuizOrder {
 	Desc = "desc",
 }
 
+export enum QuestionVote {
+	Positive = "positive",
+	Negative = "negative",
+}
+
 export type QuestionItem = {
 	id: string;
 	text: string;

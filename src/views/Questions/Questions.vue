@@ -96,7 +96,7 @@ function setPage(n: number) {
 				<span class="loading loading-ring loading-lg"></span>
 			</div>
 			<div v-else-if="isError" role="alert" class="alert alert-error">
-				<span class="text-error">Can't retrieve questions at this time</span>
+				<span>Can't retrieve questions at this time</span>
 			</div>
 			<div v-else-if="data" class="mt-4">
 				<div class="flex flex-col gap-4 mb-6">
