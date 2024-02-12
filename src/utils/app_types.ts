@@ -49,16 +49,23 @@ export type AppAlert = {
 export type Choice = {
 	id: string;
 	text: string;
-	is_correct: boolean;
+	isCorrect: boolean;
 };
 
 export type Question = {
 	id: string;
 	text: string;
 	seconds: number;
-	explanation?: string;
-	choices: Choice[];
-};
+	level: QuestionLevel;
+	explanation: null | string,
+	createdAt: string;
+	author: null | Author;
+	votes: {
+		positive: number;
+		negative: number;
+	},
+	choices: Array<Choice>;
+}
 
 export type Score = {
 	points: number;
