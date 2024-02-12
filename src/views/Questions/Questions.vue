@@ -10,6 +10,7 @@ import { ref } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 
 import 'highlight.js/styles/atom-one-dark.min.css';
+import { RouterLink } from "vue-router";
 
 const page = ref(1);
 const quizLevel = ref<QuestionLevel | typeof ALL_LEVELS>(ALL_LEVELS);
@@ -99,7 +100,9 @@ function setPage(n: number) {
 			</div>
 			<div v-else-if="data" class="mt-4">
 				<div class="flex flex-col gap-4 mb-6">
-					<div v-for="question in data.questions" class="card shadow-lg bg-base-200 card-compact" :key="question.id">
+					<RouterLink v-for="question in data.questions"
+						class="card shadow-lg bg-base-200 hover:bg-base-300 card-compact cursor-pointer" :key="question.id"
+						:to="{ name: 'question', params: { id: question.id } }">
 						<div class="card-body">
 							<div class="card-actions justify-end items-center">
 								<div class="badge">{{ question.level }}</div>
@@ -109,13 +112,14 @@ function setPage(n: number) {
 								<div class="text-sm italic">{{ new Date(question.createdAt).toLocaleString() }}</div>
 								<div class="flex items-center gap-1">
 									<IconHeart v-if="question.votes.positive - question.votes.negative > 0" class="text-2xl text-red-500" />
-									<IconHeart v-else-if="question.votes.positive - question.votes.negative === 0" class="text-2xl text-gray-500" />
+									<IconHeart v-else-if="question.votes.positive - question.votes.negative === 0"
+										class="text-2xl text-gray-500" />
 									<IconHeartBroken v-else class="text-2xl text-gray-500" />
 									<p class="text-lg">{{ question.votes.positive - question.votes.negative }}</p>
 								</div>
 							</div>
 						</div>
-					</div>
+					</RouterLink>
 				</div>
 				<Pagination :current-page="page" :total-items="data.total" :set-page="setPage" />
 			</div>
